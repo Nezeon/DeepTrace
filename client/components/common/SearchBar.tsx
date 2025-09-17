@@ -11,7 +11,7 @@ export default function SearchBar({ className, ...props }: Props) {
       <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
       <Input
         placeholder="Search cases..."
-        className="pl-9 h-11 rounded-lg bg-white shadow-sm ring-0 focus-visible:ring-brand/30"
+        className="pl-9 h-11 rounded-lg bg-card shadow-sm ring-0 focus-visible:ring-brand/30"
         {...props}
       />
     </div>

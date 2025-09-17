@@ -24,7 +24,7 @@ export default function CaseCard({ item, active }: Props) {
   return (
     <div
       className={cn(
-        "rounded-lg border bg-white p-4 shadow-sm transition-colors hover:border-brand/30",
+        "rounded-lg border bg-card p-4 shadow-sm transition-colors hover:border-brand/30",
         active && "border-brand/40 ring-1 ring-brand/20",
       )}
       data-loc="components/case/CaseCard"

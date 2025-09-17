@@ -13,7 +13,7 @@ export default function TopNav({ onReport, showReport }: TopNavProps) {
   const isHome = location.pathname === "/";
 
   return (
-    <header className="sticky top-0 z-40 w-full border-b bg-white/80 backdrop-blur supports-[backdrop-filter]:bg-white/60">
+    <header className="sticky top-0 z-40 w-full border-b bg-background/80 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="mx-auto flex h-14 max-w-7xl items-center gap-3 px-4">
         <Link to="/" className="flex items-center gap-2 font-semibold text-primary">
           <Shield className="h-5 w-5 text-primary" />
@@ -35,6 +35,10 @@ export default function TopNav({ onReport, showReport }: TopNavProps) {
             <Sparkles className="h-4 w-4" />
             Dashboard
           </a>
+          <div className="pl-1">
+            {/* Theme toggle */}
+            {require("react").createElement(require("@/components/common/ThemeToggle").default)}
+          </div>
         </div>
       </div>
     </header>
