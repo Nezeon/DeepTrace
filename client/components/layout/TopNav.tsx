@@ -1,7 +1,8 @@
-import { Link, useLocation, useParams } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { FileText, Shield, Sparkles } from "lucide-react";
+import ThemeToggle from "@/components/common/ThemeToggle";
 
 interface TopNavProps {
   onReport?: () => void;
@@ -36,8 +37,7 @@ export default function TopNav({ onReport, showReport }: TopNavProps) {
             Dashboard
           </a>
           <div className="pl-1">
-            {/* Theme toggle */}
-            {require("react").createElement(require("@/components/common/ThemeToggle").default)}
+            <ThemeToggle />
           </div>
         </div>
       </div>
