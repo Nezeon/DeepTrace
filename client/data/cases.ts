@@ -15,7 +15,7 @@ export const cases: ForensicCase[] = [
   },
   {
     id: "CASE-2024-0014",
-    date: "2025-03:05T16:45:00Z".replace(":", "-"),
+    date: "2025-03-05T16:45:00Z",
     status: "On Hold",
     description: "Harassment case analyzing chat transcripts and media.",
   },
