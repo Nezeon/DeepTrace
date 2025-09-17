@@ -15,13 +15,16 @@
     --background: 0 0% 100%;
     --foreground: 222.2 84% 4.9%;
 
+    --brand: 224 76% 55%;
+    --brand-foreground: 210 40% 98%;
+
     --card: 0 0% 100%;
     --card-foreground: 222.2 84% 4.9%;
 
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
 
-    --primary: 222.2 47.4% 11.2%;
+    --primary: 224 76% 45%;
     --primary-foreground: 210 40% 98%;
 
     --secondary: 210 40% 96.1%;
@@ -62,6 +65,9 @@
   .dark {
     --background: 222.2 84% 4.9%;
     --foreground: 210 40% 98%;
+
+    --brand: 224 76% 48%;
+    --brand-foreground: 0 0% 100%;
 
     --card: 222.2 84% 4.9%;
     --card-foreground: 210 40% 98%;
