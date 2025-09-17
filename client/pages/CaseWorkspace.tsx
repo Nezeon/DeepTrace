@@ -1,4 +1,5 @@
-import TopNav from "@/components/layout/TopNav\";\nimport CaseSidebar from \"@/components/case/CaseSidebar";
+import TopNav from "@/components/layout/TopNav";
+import CaseSidebar from "@/components/case/CaseSidebar";
 import ChatPanel from "@/components/case/ChatPanel";
 import RightInsights from "@/components/case/RightInsights";
 import { useMemo, useState } from "react";
