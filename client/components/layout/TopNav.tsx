@@ -1,4 +1,4 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { FileText, Shield, Sparkles } from "lucide-react";
@@ -7,11 +7,10 @@ import ThemeToggle from "@/components/common/ThemeToggle";
 interface TopNavProps {
   onReport?: () => void;
   showReport?: boolean;
+  isHome?: boolean;
 }
 
-export default function TopNav({ onReport, showReport }: TopNavProps) {
-  const location = useLocation();
-  const isHome = location.pathname === "/";
+export default function TopNav({ onReport, showReport, isHome = false }: TopNavProps) {
 
   return (
     <header className="sticky top-0 z-40 w-full border-b bg-background/80 backdrop-blur supports-[backdrop-filter]:bg-background/60">
