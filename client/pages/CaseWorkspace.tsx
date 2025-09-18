@@ -40,7 +40,7 @@ export default function CaseWorkspace() {
           </button>
         </div>
         <div className="flex gap-0">
-          <CaseSidebar caseId={forensicCase.id} />
+          <CaseSidebar caseId={forensicCase.id} onSelectThread={setThreadId} activeThread={threadId} />
           <ChatPanel threadId={threadId} onEntities={setEntities} />
           <RightInsights caseId={forensicCase.id} entities={entities} />
         </div>
