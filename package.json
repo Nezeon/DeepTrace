@@ -12,6 +12,9 @@
   },
   "scripts": {
     "dev": "vite",
+    "dev:server": "nodemon server.js",
+    "dev:server:local": "cross-env MONGODB_URI=mongodb://localhost:27017/forensiq PORT=5000 nodemon server.js",
+    "server": "node server.js",
     "build": "npm run build:client && npm run build:server",
     "build:client": "vite build",
     "build:server": "vite build --config vite.config.server.ts",
@@ -21,8 +24,11 @@
     "typecheck": "tsc"
   },
   "dependencies": {
+    "cors": "^2.8.5",
     "dotenv": "^17.2.1",
     "express": "^5.1.0",
+    "mongoose": "^8.8.0",
+    "morgan": "^1.10.0",
     "zod": "^3.25.76"
   },
   "devDependencies": {
@@ -70,7 +76,8 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "cmdk": "^1.1.1",
-    "cors": "^2.8.5",
+    "nodemon": "^3.1.9",
+    "cross-env": "^7.0.3",
     "date-fns": "^4.1.0",
     "embla-carousel-react": "^8.6.0",
     "framer-motion": "^12.23.12",
