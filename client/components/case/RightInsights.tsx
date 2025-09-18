@@ -1,6 +1,6 @@
 import { CaseInsights, EntityExtraction } from "@shared/api";
 import { useEffect, useMemo, useState } from "react";
-import { Calendar, Link2, Mail, Network, Phone, Shapes } from "lucide-react";
+import { AlertTriangle, BarChart2, CalendarDays, Link2, Mail, Phone, User, Wallet } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import { ScrollArea } from "@/components/ui/scroll-area";
 
@@ -14,75 +14,123 @@ export default function RightInsights({ caseId, entities }: Props) {
 
   useEffect(() => {
     const timeline = [
-      { label: "Case opened", date: "2025-01-11" },
-      { label: "First BTC mention", date: "2025-03-05" },
-      { label: "Invoice uploaded", date: "2025-06-21" },
+      { label: "Large BTC transfer", date: "2025-03-15" },
+      { label: "Encrypted chat session", date: "2025-03-14" },
+      { label: "Phone call cluster", date: "2025-03-13" },
+      { label: "Document upload", date: "2025-03-12" },
+      { label: "Suspicious login", date: "2025-03-11" },
     ];
-    const summary = `Live insights for ${caseId}. Entities update as you chat. Use Generate Report to export.`;
+    const summary = `Summary for ${caseId}.`;
     setInsights({ summary, entities, timeline });
   }, [caseId, entities]);
 
   const counts = useMemo(
-    () => ({
-      emails: entities.emails.length,
-      phones: entities.phones.length,
-      crypto: entities.crypto.length,
-      numbers: entities.numbers.length,
-    }),
+    () => ({ emails: entities.emails.length, phones: entities.phones.length, crypto: entities.crypto.length, numbers: entities.numbers.length }),
     [entities],
   );
 
   if (!insights) return null;
 
+  const Meter = ({ value }: { value: number }) => (
+    <div className="h-2 w-full overflow-hidden rounded-full bg-muted">
+      <div className="h-full bg-brand" style={{ width: `${value}%` }} />
+    </div>
+  );
+
   return (
-    <aside className="hidden w-80 border-l bg-white md:flex md:flex-col" data-loc="components/case/RightInsights">
+    <aside className="hidden w-96 border-l bg-white xl:flex xl:flex-col" data-loc="components/case/RightInsights">
       <ScrollArea className="h-[calc(100vh-7rem)]">
         <div className="space-y-4 p-4">
-          <div>
-            <div className="text-sm font-medium text-muted-foreground">Quick Insights</div>
-            <p className="mt-1 text-sm leading-relaxed text-foreground/80">{insights.summary}</p>
+          <div className="rounded-xl border bg-card p-4 shadow-sm">
+            <div className="flex items-center justify-between text-sm">
+              <div className="font-medium">Case Summary</div>
+              <BarChart2 className="h-4 w-4 text-muted-foreground" />
+            </div>
+            <div className="mt-3 grid grid-cols-3 gap-2 text-center">
+              <div>
+                <div className="text-2xl font-semibold">{47}</div>
+                <div className="text-xs text-muted-foreground">Evidence Items</div>
+              </div>
+              <div>
+                <div className="text-2xl font-semibold text-emerald-600">{42}</div>
+                <div className="text-xs text-muted-foreground">Analyzed</div>
+              </div>
+              <div>
+                <div className="text-2xl font-semibold">{89}%</div>
+                <div className="text-xs text-muted-foreground">Progress</div>
+              </div>
+            </div>
           </div>
-          <Separator />
-          <div>
-            <div className="mb-2 text-sm font-medium text-muted-foreground">Entities</div>
-            <ul className="grid grid-cols-2 gap-2">
-              <li className="rounded-lg border bg-white p-3 shadow-sm">
-                <div className="flex items-center gap-2 text-xs text-muted-foreground"><Mail className="h-4 w-4"/> Emails</div>
-                <div className="mt-1 text-2xl font-semibold">{counts.emails}</div>
-              </li>
-              <li className="rounded-lg border bg-white p-3 shadow-sm">
-                <div className="flex items-center gap-2 text-xs text-muted-foreground"><Phone className="h-4 w-4"/> Phones</div>
-                <div className="mt-1 text-2xl font-semibold">{counts.phones}</div>
-              </li>
-              <li className="rounded-lg border bg-white p-3 shadow-sm">
-                <div className="flex items-center gap-2 text-xs text-muted-foreground"><Link2 className="h-4 w-4"/> Crypto</div>
-                <div className="mt-1 text-2xl font-semibold">{counts.crypto}</div>
-              </li>
-              <li className="rounded-lg border bg-white p-3 shadow-sm">
-                <div className="flex items-center gap-2 text-xs text-muted-foreground"><Shapes className="h-4 w-4"/> Numbers</div>
-                <div className="mt-1 text-2xl font-semibold">{counts.numbers}</div>
-              </li>
+
+          <div className="rounded-xl border bg-card p-4 shadow-sm">
+            <div className="mb-2 text-sm font-medium">Entity Types</div>
+            <ul className="space-y-2 text-sm">
+              <li className="flex items-center gap-2"><Mail className="h-4 w-4"/> Email <span className="ml-auto text-muted-foreground">{counts.emails}</span></li>
+              <li className="flex items-center gap-2"><Phone className="h-4 w-4"/> Phone <span className="ml-auto text-muted-foreground">{counts.phones}</span></li>
+              <li className="flex items-center gap-2"><Wallet className="h-4 w-4"/> Crypto Wallets <span className="ml-auto text-muted-foreground">{counts.crypto}</span></li>
+              <li className="flex items-center gap-2"><User className="h-4 w-4"/> People <span className="ml-auto text-muted-foreground">{Math.max(1, Math.round((counts.emails+counts.phones)/2))}</span></li>
             </ul>
-            {entities.emails.length + entities.crypto.length + entities.phones.length > 0 ? (
-              <ul className="mt-3 space-y-1 text-xs text-muted-foreground">
-                {[...entities.emails, ...entities.crypto, ...entities.phones].slice(0, 6).map((e) => (
-                  <li key={e} className="truncate">{e}</li>
-                ))}
-              </ul>
-            ) : null}
           </div>
-          <Separator />
-          <div>
-            <div className="mb-2 flex items-center gap-2 text-sm font-medium text-muted-foreground"><Calendar className="h-4 w-4"/> Timeline</div>
-            <ol className="relative ms-3 border-s ps-3">
+
+          <div className="rounded-xl border bg-card p-4 shadow-sm">
+            <div className="mb-2 flex items-center gap-2 text-sm font-medium"><CalendarDays className="h-4 w-4"/> Recent Activity</div>
+            <ul className="space-y-2 text-sm">
               {insights.timeline.map((t) => (
-                <li key={t.label} className="mb-3">
-                  <div className="absolute -ms-1.5 mt-1.5 h-3 w-3 rounded-full border bg-brand/80" />
-                  <div className="text-xs text-muted-foreground">{new Date(t.date).toLocaleDateString()}</div>
-                  <div className="text-sm font-medium">{t.label}</div>
+                <li key={t.label} className="flex items-center justify-between">
+                  <span>{t.label}</span>
+                  <span className="rounded-full bg-muted px-2 text-[10px] text-muted-foreground">{new Date(t.date).toLocaleDateString(undefined,{month:'short',day:'numeric'})}</span>
                 </li>
               ))}
-            </ol>
+            </ul>
+          </div>
+
+          <div className="rounded-xl border bg-card p-4 shadow-sm">
+            <div className="mb-2 text-sm font-medium">Key Connections</div>
+            <div className="space-y-3 text-sm">
+              <div>
+                <div className="mb-1 flex items-center justify-between"><span>John Doe</span><span className="text-muted-foreground">95%</span></div>
+                <Meter value={95} />
+              </div>
+              <div>
+                <div className="mb-1 flex items-center justify-between"><span>Crypto Exchange</span><span className="text-muted-foreground">87%</span></div>
+                <Meter value={87} />
+              </div>
+              <div>
+                <div className="mb-1 flex items-center justify-between"><span>Phone +1-555-0123</span><span className="text-muted-foreground">76%</span></div>
+                <Meter value={76} />
+              </div>
+            </div>
+          </div>
+
+          <div className="rounded-xl border bg-card p-4 shadow-sm">
+            <div className="mb-2 text-sm font-medium">Active Alerts</div>
+            <ul className="space-y-2 text-sm">
+              <li className="flex items-center justify-between"><span className="flex items-center gap-2 text-rose-600"><AlertTriangle className="h-4 w-4"/> High Risk</span><span className="text-muted-foreground">Large transfers</span></li>
+              <li className="flex items-center justify-between"><span className="flex items-center gap-2"><AlertTriangle className="h-4 w-4 text-amber-600"/> Pattern Match</span><span className="text-muted-foreground">Spike before transfers</span></li>
+              <li className="flex items-center justify-between"><span className="flex items-center gap-2"><AlertTriangle className="h-4 w-4 text-sky-600"/> Anomaly</span><span className="text-muted-foreground">Login location</span></li>
+            </ul>
+          </div>
+
+          <div className="rounded-xl border bg-card p-4 shadow-sm">
+            <div className="mb-2 text-sm font-medium">Financial Summary</div>
+            <div className="grid grid-cols-2 gap-4 text-sm">
+              <div>
+                <div className="text-muted-foreground">Total Value</div>
+                <div className="text-lg font-semibold">$2.3M</div>
+              </div>
+              <div>
+                <div className="text-muted-foreground">Suspicious</div>
+                <div className="text-lg font-semibold text-rose-600">$850K</div>
+              </div>
+              <div>
+                <div className="text-muted-foreground">Crypto Addresses</div>
+                <div className="text-lg font-semibold">{Math.max(1, counts.crypto)}</div>
+              </div>
+              <div>
+                <div className="text-muted-foreground">Bank Accounts</div>
+                <div className="text-lg font-semibold">3 linked</div>
+              </div>
+            </div>
           </div>
         </div>
       </ScrollArea>

@@ -1,8 +1,7 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { FileText, Shield, Sparkles } from "lucide-react";
-import ThemeToggle from "@/components/common/ThemeToggle";
+import { FileText, Shield } from "lucide-react";
 
 interface TopNavProps {
   onReport?: () => void;
@@ -25,19 +24,6 @@ export default function TopNav({ onReport, showReport, isHome = false }: TopNavP
               <FileText className="h-4 w-4" /> Generate Report
             </Button>
           ) : null}
-          <a
-            href="/"
-            className={cn(
-              "hidden items-center gap-1 rounded-md px-2 py-1 text-sm text-muted-foreground hover:text-foreground md:flex",
-            )}
-            aria-label="Go to dashboard"
-          >
-            <Sparkles className="h-4 w-4" />
-            Dashboard
-          </a>
-          <div className="pl-1">
-            <ThemeToggle />
-          </div>
         </div>
       </div>
     </header>

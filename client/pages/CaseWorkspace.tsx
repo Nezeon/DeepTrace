@@ -27,11 +27,23 @@ export default function CaseWorkspace() {
 
   return (
     <div className="flex min-h-screen flex-col bg-muted/30">
-      <TopNav onReport={onReport} showReport />
-      <main className="mx-auto flex w-full max-w-7xl flex-1 gap-0 px-4">
-        <CaseSidebar caseId={forensicCase.id} onSelectThread={setThreadId} activeThread={threadId} />
-        <ChatPanel threadId={threadId} onEntities={setEntities} />
-        <RightInsights caseId={forensicCase.id} entities={entities} />
+      <TopNav />
+      <main className="mx-auto w-full max-w-7xl flex-1 px-4">
+        <div className="flex items-center justify-between py-3">
+          <a href="/" className="text-sm text-muted-foreground hover:text-foreground">← Back to Dashboard</a>
+          <div className="text-center">
+            <div className="text-sm text-muted-foreground">{forensicCase.description}</div>
+            <h1 className="text-lg font-semibold">Case {forensicCase.id}</h1>
+          </div>
+          <button onClick={onReport} className="inline-flex items-center gap-2 rounded-md bg-primary px-3 py-2 text-sm font-medium text-primary-foreground shadow-sm">
+            Generate Report
+          </button>
+        </div>
+        <div className="flex gap-0">
+          <CaseSidebar caseId={forensicCase.id} />
+          <ChatPanel threadId={threadId} onEntities={setEntities} />
+          <RightInsights caseId={forensicCase.id} entities={entities} />
+        </div>
       </main>
     </div>
   );
