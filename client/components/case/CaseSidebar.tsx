@@ -1,76 +1,63 @@
-import { evidenceItems } from "@/data/cases";
-import { EvidenceCategory } from "@shared/api";
-import { FileText, MessageSquare, Phone, Image as ImageIcon, Folder, List } from "lucide-react";
-import { useMemo, useState } from "react";
+import { caseThreads } from "@/data/cases";
+import { CaseThread } from "@shared/api";
+import { Plus, MessageSquare } from "lucide-react";
+import { useEffect, useMemo, useState } from "react";
 import { cn } from "@/lib/utils";
 import { ScrollArea } from "@/components/ui/scroll-area";
 
-const icons: Record<EvidenceCategory | "All", any> = {
-  All: List,
-  Chats: MessageSquare,
-  Calls: Phone,
-  Media: ImageIcon,
-  Documents: FileText,
-};
-
 interface Props {
   caseId: string;
-  onSelectThread?: (id: string) => void;
+  onSelectThread: (threadId: string) => void;
   activeThread?: string;
 }
 
-export default function CaseSidebar({ caseId }: Props) {
-  const [category, setCategory] = useState<EvidenceCategory | "All">("All");
-  const items = useMemo(() => evidenceItems[caseId] || [], [caseId]);
-  const grouped = useMemo(() => {
-    const byCat: Record<EvidenceCategory, number> = { Chats: 0, Calls: 0, Media: 0, Documents: 0 };
-    for (const i of items) byCat[i.category]++;
-    return byCat;
-  }, [items]);
-  const nav: (EvidenceCategory | "All")[] = ["All", "Chats", "Calls", "Media", "Documents"];
-  const visible = category === "All" ? items : items.filter((i) => i.category === category);
+export default function CaseSidebar({ caseId, onSelectThread, activeThread }: Props) {
+  const initial = useMemo<CaseThread[]>(() => (caseThreads[caseId] || []).filter((t) => t.category === "Chats"), [caseId]);
+  const [threads, setThreads] = useState<CaseThread[]>(initial);
+
+  useEffect(() => {
+    setThreads(initial);
+  }, [initial]);
+
+  const createNewChat = () => {
+    const id = `chat-${Date.now()}`;
+    const t: CaseThread = { id, title: "New Chat", category: "Chats", snippet: "Start asking questions" };
+    setThreads((prev) => [...prev, t]);
+    onSelectThread(id);
+  };
 
   return (
     <aside className="flex h-full w-80 flex-col border-r bg-white" data-loc="components/case/CaseSidebar">
-      <div className="px-4 pb-2 pt-4">
-        <div className="text-xs font-medium text-muted-foreground">Evidence Files</div>
-        <div className="mt-3 space-y-1">
-          {nav.map((c) => {
-            const Icon = icons[c];
-            const count = c === "All" ? items.length : grouped[c as EvidenceCategory] ?? 0;
-            const active = category === c;
-            return (
-              <button
-                key={c}
-                onClick={() => setCategory(c)}
-                className={cn(
-                  "flex w-full items-center justify-between rounded-md px-3 py-2 text-sm",
-                  active ? "bg-accent text-foreground" : "text-foreground/80 hover:bg-accent",
-                )}
-              >
-                <span className="flex items-center gap-2"><Icon className="h-4 w-4" /> {c === "All" ? "All Evidence" : c}</span>
-                <span className="rounded-full bg-muted px-2 text-[10px] text-muted-foreground">{count}</span>
-              </button>
-            );
-          })}
-        </div>
+      <div className="flex items-center justify-between px-4 pb-2 pt-4">
+        <div className="text-sm font-medium">Chats</div>
+        <button
+          onClick={createNewChat}
+          className="inline-flex items-center gap-1 rounded-md border bg-card px-2 py-1 text-xs shadow-sm hover:border-brand/30"
+        >
+          <Plus className="h-3.5 w-3.5" /> New Chat
+        </button>
       </div>
       <ScrollArea className="h-full">
         <ul className="px-3 pb-6">
-          {visible.map((e) => {
-            const Icon = icons[e.category];
-            return (
-              <li key={e.id} className="mb-2">
-                <div className="rounded-lg border bg-card p-3 hover:border-brand/30">
-                  <div className="flex items-center gap-2 text-sm">
-                    <Icon className="h-4 w-4 text-muted-foreground" />
-                    <span className="font-medium">{e.title}</span>
-                    <span className="ml-auto rounded-full bg-muted px-2 text-[10px] text-muted-foreground">{e.meta}</span>
-                  </div>
+          {threads.map((t) => (
+            <li key={t.id} className="mb-2">
+              <button
+                onClick={() => onSelectThread(t.id)}
+                className={cn(
+                  "flex w-full items-center gap-2 rounded-lg border bg-card p-3 text-left shadow-sm hover:border-brand/30",
+                  activeThread === t.id && "border-brand/40 ring-1 ring-brand/20",
+                )}
+              >
+                <span className="rounded-md border bg-background p-1 text-muted-foreground"><MessageSquare className="h-4 w-4"/></span>
+                <div className="min-w-0">
+                  <div className="truncate text-sm font-medium">{t.title}</div>
+                  {t.snippet ? (
+                    <div className="truncate text-xs text-muted-foreground">{t.snippet}</div>
+                  ) : null}
                 </div>
-              </li>
-            );
-          })}
+              </button>
+            </li>
+          ))}
         </ul>
       </ScrollArea>
     </aside>
