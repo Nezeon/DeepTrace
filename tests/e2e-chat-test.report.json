@@ -1,0 +1,10 @@
+﻿
+> fusion-starter@ test:e2e:chat D:\SIH Project\ForensiQ
+> node tests/e2e-chat-test.mjs
+
+{
+  "base": "http://localhost:5000",
+  "steps": [],
+  "success": false,
+  "error": "TypeError: fetch failed\n    at node:internal/deps/undici/undici:13510:13\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async req (file:///D:/SIH%20Project/ForensiQ/tests/e2e-chat-test.mjs:14:15)\n    at async main (file:///D:/SIH%20Project/ForensiQ/tests/e2e-chat-test.mjs:29:20)"
+}
