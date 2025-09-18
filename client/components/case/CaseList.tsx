@@ -8,8 +8,7 @@ interface Props {
 }
 
 export default function CaseList({ items }: Props) {
-  const location = useLocation();
-  const activeId = decodeURIComponent(location.pathname.split("/").pop() || "");
+  const activeId = typeof window !== "undefined" ? decodeURIComponent(window.location.pathname.split("/").pop() || "") : "";
   return (
     <ScrollArea className="h-[calc(100vh-10rem)] pr-2" data-loc="components/case/CaseList">
       <div className="grid grid-cols-1 gap-3">
