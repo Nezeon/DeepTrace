@@ -38,7 +38,7 @@ export default function Index() {
 
   return (
     <div className="flex min-h-screen flex-col bg-muted/30">
-      <TopNav />
+      <TopNav isHome />
       <main className="mx-auto flex w-full max-w-7xl flex-1 gap-4 px-4 py-6">
         <aside className="w-full shrink-0 md:w-80">
           <div className="flex items-center justify-between">
