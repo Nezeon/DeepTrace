@@ -2,39 +2,94 @@ import { useMemo, useState } from "react";
 import SearchBar from "@/components/common/SearchBar";
 import TopNav from "@/components/layout/TopNav";
 import CaseList from "@/components/case/CaseList";
-import { cases } from "@/data/cases";
-import { ForensicCase } from "@shared/api";
+import { cases, evidenceItems } from "@/data/cases";
+import { CaseStatus, ForensicCase } from "@shared/api";
 import DashboardPlaceholder from "@/components/dashboard/Placeholder";
+import StatsCard from "@/components/dashboard/StatsCard";
+import { Calendar, FileStack, Info, Users } from "lucide-react";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Button } from "@/components/ui/button";
 
 export default function Index() {
   const [query, setQuery] = useState("");
+  const [status, setStatus] = useState<"All" | CaseStatus>("All");
 
   const filtered: ForensicCase[] = useMemo(() => {
     const q = query.toLowerCase().trim();
-    if (!q) return cases;
-    return cases.filter((c) =>
-      [c.id, c.status, c.description, new Date(c.date).toLocaleDateString()].some((v) =>
+    return cases.filter((c) => {
+      const matchesQ = !q || [c.id, c.status, c.description, new Date(c.date).toLocaleDateString()].some((v) =>
         String(v).toLowerCase().includes(q),
-      ),
-    );
-  }, [query]);
+      );
+      const matchesS = status === "All" || c.status === status;
+      return matchesQ && matchesS;
+    });
+  }, [query, status]);
+
+  const activeCount = useMemo(() => cases.filter((c) => c.status === "Open").length, []);
+  const reviewCount = useMemo(() => cases.filter((c) => c.status === "In Review").length, []);
+  const totalEvidence = useMemo(
+    () => Object.values(evidenceItems).reduce((acc, list) => acc + list.length, 0),
+    [],
+  );
+  const closedThisMonth = useMemo(() => {
+    const now = new Date();
+    return cases.filter((c) => c.status === "Closed" && new Date(c.date).getMonth() === now.getMonth() && new Date(c.date).getFullYear() === now.getFullYear()).length;
+  }, []);
 
   return (
     <div className="flex min-h-screen flex-col bg-muted/30">
       <TopNav />
       <main className="mx-auto flex w-full max-w-7xl flex-1 gap-4 px-4 py-6">
         <aside className="w-full shrink-0 md:w-80">
-          <h1 className="text-2xl font-semibold tracking-tight">Cases</h1>
-          <p className="text-sm text-muted-foreground">Search and open a case to start investigating.</p>
+          <div className="flex items-center justify-between">
+            <div>
+              <h1 className="text-2xl font-semibold tracking-tight">Cases</h1>
+              <p className="text-sm text-muted-foreground">Search and filter your cases.</p>
+            </div>
+            <Button size="sm" className="ml-2">New Case</Button>
+          </div>
           <div className="mt-3">
             <SearchBar value={query} onChange={(e) => setQuery(e.target.value)} />
+          </div>
+          <div className="mt-2">
+            <Select value={status} onValueChange={(v) => setStatus(v as any)}>
+              <SelectTrigger className="h-9 rounded-lg">
+                <SelectValue placeholder="All Status" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="All">All Status</SelectItem>
+                <SelectItem value="Open">Open</SelectItem>
+                <SelectItem value="In Review">In Review</SelectItem>
+                <SelectItem value="On Hold">On Hold</SelectItem>
+                <SelectItem value="Closed">Closed</SelectItem>
+              </SelectContent>
+            </Select>
           </div>
           <div className="mt-4 rounded-lg border bg-card p-2">
             <CaseList items={filtered} />
           </div>
         </aside>
-        <section className="hidden flex-1 rounded-lg border bg-card md:block">
-          <DashboardPlaceholder />
+        <section className="hidden flex-1 md:block">
+          <div className="mb-4">
+            <h2 className="text-xl font-semibold">Forensic Investigation Dashboard</h2>
+            <p className="text-sm text-muted-foreground">Manage and monitor ongoing digital forensic investigations</p>
+          </div>
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
+            <StatsCard title="Active Cases" value={activeCount} icon={<FileStack className="h-5 w-5" />} />
+            <StatsCard title="Pending Review" value={reviewCount} icon={<Info className="h-5 w-5" />} />
+            <StatsCard title="Total Evidence" value={totalEvidence} icon={<Users className="h-5 w-5" />} />
+            <StatsCard title="Closed This Month" value={closedThisMonth} icon={<Calendar className="h-5 w-5" />} />
+          </div>
+          <div className="mt-4 rounded-xl border bg-card p-8 text-center shadow-sm">
+            <div className="mx-auto mb-2 flex h-12 w-12 items-center justify-center rounded-xl border bg-background">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" className="text-muted-foreground">
+                <path d="M3 3v18h18" stroke="currentColor" strokeWidth="2"/>
+                <path d="M7 15l3-3 4 4 5-5" stroke="currentColor" strokeWidth="2"/>
+              </svg>
+            </div>
+            <div className="text-sm font-medium">Dashboard Content Area</div>
+            <p className="mx-auto mt-1 max-w-xl text-sm text-muted-foreground">This is a placeholder for additional dashboard content. You can add analytics, charts, recent activity feeds, or other overview components here.</p>
+          </div>
         </section>
       </main>
     </div>
