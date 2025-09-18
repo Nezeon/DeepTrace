@@ -11,8 +11,15 @@ interface Props {
   activeThread?: string;
 }
 
-export default function CaseSidebar({ caseId, onSelectThread, activeThread }: Props) {
-  const initial = useMemo<CaseThread[]>(() => (caseThreads[caseId] || []).filter((t) => t.category === "Chats"), [caseId]);
+export default function CaseSidebar({
+  caseId,
+  onSelectThread,
+  activeThread,
+}: Props) {
+  const initial = useMemo<CaseThread[]>(
+    () => (caseThreads[caseId] || []).filter((t) => t.category === "Chats"),
+    [caseId],
+  );
   const [threads, setThreads] = useState<CaseThread[]>(initial);
 
   useEffect(() => {
@@ -21,13 +28,21 @@ export default function CaseSidebar({ caseId, onSelectThread, activeThread }: Pr
 
   const createNewChat = () => {
     const id = `chat-${Date.now()}`;
-    const t: CaseThread = { id, title: "New Chat", category: "Chats", snippet: "Start asking questions" };
+    const t: CaseThread = {
+      id,
+      title: "New Chat",
+      category: "Chats",
+      snippet: "Start asking questions",
+    };
     setThreads((prev) => [...prev, t]);
     onSelectThread(id);
   };
 
   return (
-    <aside className="flex h-full w-80 flex-col border-r bg-white" data-loc="components/case/CaseSidebar">
+    <aside
+      className="flex h-full w-80 flex-col border-r bg-white"
+      data-loc="components/case/CaseSidebar"
+    >
       <div className="flex items-center justify-between px-4 pb-2 pt-4">
         <div className="text-sm font-medium">Chats</div>
         <button
@@ -45,14 +60,19 @@ export default function CaseSidebar({ caseId, onSelectThread, activeThread }: Pr
                 onClick={() => onSelectThread(t.id)}
                 className={cn(
                   "flex w-full items-center gap-2 rounded-lg border bg-card p-3 text-left shadow-sm hover:border-brand/30",
-                  activeThread === t.id && "border-brand/40 ring-1 ring-brand/20",
+                  activeThread === t.id &&
+                    "border-brand/40 ring-1 ring-brand/20",
                 )}
               >
-                <span className="rounded-md border bg-background p-1 text-muted-foreground"><MessageSquare className="h-4 w-4"/></span>
+                <span className="rounded-md border bg-background p-1 text-muted-foreground">
+                  <MessageSquare className="h-4 w-4" />
+                </span>
                 <div className="min-w-0">
                   <div className="truncate text-sm font-medium">{t.title}</div>
                   {t.snippet ? (
-                    <div className="truncate text-xs text-muted-foreground">{t.snippet}</div>
+                    <div className="truncate text-xs text-muted-foreground">
+                      {t.snippet}
+                    </div>
                   ) : null}
                 </div>
               </button>
