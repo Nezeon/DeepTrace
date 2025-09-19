@@ -1,4 +1,4 @@
-# 🔍 ForensiQ - Advanced Digital Forensic Investigation Platform
+# 🔍 DeepTrace - Advanced Digital Forensic Investigation Platform
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Node.js](https://img.shields.io/badge/Node.js-18+-green.svg)](https://nodejs.org/)
@@ -46,8 +46,8 @@
 1. **Clone the repository**
 
    ```bash
-   git clone https://github.com/yourusername/forensiq.git
-   cd forensiq
+   git clone https://github.com/Nezeon/DeepTrace.git
+   cd DeepTrace
    ```
 
 2. **Install dependencies**
@@ -261,9 +261,9 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 📞 Support
 
-- **Documentation**: [Wiki](https://github.com/yourusername/forensiq/wiki)
-- **Issues**: [GitHub Issues](https://github.com/yourusername/forensiq/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/yourusername/forensiq/discussions)
+- **Documentation**: [Wiki](https://github.com/Nezeon/DeepTrace/wiki)
+- **Issues**: [GitHub Issues](https://github.com/Nezeon/DeepTrace/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/Nezeon/DeepTrace/discussions)
 - **Email**: support@forensiq.com
 
 ---
@@ -272,6 +272,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 **Built with ❤️ for the digital forensics community**
 
-[⭐ Star this repo](https://github.com/yourusername/forensiq) • [🐛 Report Bug](https://github.com/yourusername/forensiq/issues) • [💡 Request Feature](https://github.com/yourusername/forensiq/issues)
+[⭐ Star this repo](https://github.com/Nezeon/DeepTrace) • [🐛 Report Bug](https://github.com/Nezeon/DeepTrace/issues) • [💡 Request Feature](https://github.com/Nezeon/DeepTrace/issues)
 
 </div>
