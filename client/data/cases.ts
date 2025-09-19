@@ -62,7 +62,7 @@ export const initialMessages: Record<string, ChatMessage[]> = {
   t1: [
     {
       id: "m1",
-      role: "ai",
+      role: "assistant",
       content:
         "Hello investigator. Ask me things like: Find all chats about Bitcoin, list emails, or summarize transfers over $1,000.",
       timestamp: new Date().toISOString(),
@@ -75,7 +75,7 @@ export const initialMessages: Record<string, ChatMessage[]> = {
     },
     {
       id: "m3",
-      role: "ai",
+      role: "assistant",
       content:
         "I found mentions: 'btc', address bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh, and email contact: ops@cryptohub.io. Two amounts: 0.75 and 2.35 BTC.",
       timestamp: new Date().toISOString(),

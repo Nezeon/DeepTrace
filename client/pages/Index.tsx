@@ -37,23 +37,23 @@ export default function Index() {
   }, []);
 
   return (
-    <div className="flex min-h-screen flex-col bg-muted/30">
+    <div className="flex min-h-screen flex-col">
       <TopNav isHome />
-      <main className="mx-auto flex w-full max-w-7xl flex-1 gap-4 px-4 py-6">
+      <main className="mx-auto flex w-full max-w-7xl flex-1 gap-4 px-4 py-6 anim-in">
         <aside className="w-full shrink-0 md:w-80">
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between surface p-3 rounded-xl">
             <div>
               <h1 className="text-2xl font-semibold tracking-tight">Cases</h1>
               <p className="text-sm text-muted-foreground">Search and filter your cases.</p>
             </div>
-            <Button size="sm" className="ml-2">New Case</Button>
+            <Button size="sm" className="ml-2 btn-primary-grad hover-lift">New Case</Button>
           </div>
-          <div className="mt-3">
+          <div className="mt-3 input-glass rounded-xl p-1">
             <SearchBar value={query} onChange={(e) => setQuery(e.target.value)} />
           </div>
           <div className="mt-2">
             <Select value={status} onValueChange={(v) => setStatus(v as any)}>
-              <SelectTrigger className="h-9 rounded-lg">
+              <SelectTrigger className="h-9 rounded-lg input-glass">
                 <SelectValue placeholder="All Status" />
               </SelectTrigger>
               <SelectContent>
@@ -65,12 +65,12 @@ export default function Index() {
               </SelectContent>
             </Select>
           </div>
-          <div className="mt-4 rounded-lg border bg-card p-2">
+          <div className="mt-4 surface rounded-xl p-2 anim-in">
             <CaseList items={filtered} />
           </div>
         </aside>
         <section className="hidden flex-1 md:block">
-          <div className="mb-4">
+          <div className="mb-4 surface p-4 rounded-xl anim-in">
             <h2 className="text-xl font-semibold">Forensic Investigation Dashboard</h2>
             <p className="text-sm text-muted-foreground">Manage and monitor ongoing digital forensic investigations</p>
           </div>
@@ -80,7 +80,7 @@ export default function Index() {
             <StatsCard title="Total Evidence" value={totalEvidence} icon={<Users className="h-5 w-5" />} />
             <StatsCard title="Closed This Month" value={closedThisMonth} icon={<Calendar className="h-5 w-5" />} />
           </div>
-          <div className="mt-4 rounded-xl border bg-card p-8 text-center shadow-sm">
+          <div className="mt-4 surface rounded-xl p-8 text-center anim-in">
             <div className="mx-auto mb-2 flex h-12 w-12 items-center justify-center rounded-xl border bg-background">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" className="text-muted-foreground">
                 <path d="M3 3v18h18" stroke="currentColor" strokeWidth="2"/>

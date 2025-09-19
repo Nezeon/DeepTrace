@@ -13,8 +13,11 @@ router.get("/chats/:userId", getChatsByUser);
 router.delete("/chats/:id", deleteChatById);
 
 // CASE-based endpoints
-// POST /api/chats/case - create chat (case based)
+// POST /api/chats/case - create chat (case based) with caseId in body
 router.post("/chats/case", createChat);
+
+// POST /api/chats/case/:caseId - create chat (case based) with caseId in param
+router.post("/chats/case/:caseId", createChat);
 
 // GET /api/chats/case/:caseId - fetch chats by caseId
 router.get("/chats/case/:caseId", getChatsByCaseId);

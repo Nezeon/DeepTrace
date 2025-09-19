@@ -111,5 +111,127 @@
 
   body {
     @apply bg-background text-foreground;
+    /* Luxe animated background - adapts to theme */
+    background-image:
+      radial-gradient(1200px 600px at 82% -12%, hsl(var(--brand)/0.12), transparent 42%),
+      radial-gradient(900px 500px at -12% 12%, hsl(var(--primary)/0.10), transparent 42%),
+      linear-gradient(120deg, hsl(var(--brand)/0.06), hsl(var(--primary)/0.06), hsl(var(--background)) 60%);
+    background-attachment: fixed, fixed, fixed;
+    background-size: auto, auto, 200% 200%;
+    background-position: center, center, 0% 50%;
+    animation: bg-pan 26s ease-in-out infinite alternate;
+    position: relative;
+    transition: background-color 0.3s ease, color 0.3s ease;
   }
+
+  /* Dark mode specific background adjustments */
+  .dark body {
+    background-image:
+      radial-gradient(1200px 600px at 82% -12%, hsl(var(--brand)/0.08), transparent 42%),
+      radial-gradient(900px 500px at -12% 12%, hsl(var(--primary)/0.06), transparent 42%),
+      linear-gradient(120deg, hsl(var(--brand)/0.04), hsl(var(--primary)/0.04), hsl(var(--background)) 60%);
+  }
+
+  /* Floating glow accents */
+  body::before, body::after {
+    content: "";
+    position: fixed;
+    inset: -10% -10% auto -10%;
+    height: 50vh;
+    pointer-events: none;
+    z-index: -1;
+    filter: blur(24px) saturate(120%);
+    transition: opacity 0.3s ease;
+  }
+  body::before {
+    background: radial-gradient(380px 200px at 85% 10%, hsl(var(--brand)/0.16), transparent 50%);
+    animation: blob-bob 18s ease-in-out infinite alternate;
+  }
+  body::after {
+    background:
+      radial-gradient(360px 180px at 10% 20%, hsl(var(--primary)/0.14), transparent 50%),
+      radial-gradient(200px 120px at 40% -20%, hsl(var(--foreground)/0.06), transparent 60%);
+    animation: blob-bob 22s ease-in-out infinite alternate-reverse;
+  }
+
+  /* Dark mode glow adjustments */
+  .dark body::before {
+    background: radial-gradient(380px 200px at 85% 10%, hsl(var(--brand)/0.08), transparent 50%);
+  }
+  .dark body::after {
+    background:
+      radial-gradient(360px 180px at 10% 20%, hsl(var(--primary)/0.06), transparent 50%),
+      radial-gradient(200px 120px at 40% -20%, hsl(var(--foreground)/0.03), transparent 60%);
+  }
+
+  /* Premium scrollbars */
+  *::-webkit-scrollbar {
+    width: 10px; height: 10px;
+  }
+  *::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, hsl(var(--primary)/0.4), hsl(var(--brand)/0.4));
+    border-radius: 9999px;
+    border: 2px solid hsl(var(--background));
+  }
+  *::-webkit-scrollbar-track { background: transparent; }
+
+  ::selection {
+    background: hsl(var(--brand)/0.18);
+  }
+  }
+
+@layer components {
+  .glass {
+    background: color-mix(in oklab, white 85%, transparent);
+    background: hsl(var(--card)/0.72);
+    backdrop-filter: saturate(120%) blur(8px);
+    -webkit-backdrop-filter: saturate(120%) blur(8px);
+    box-shadow: 0 4px 12px hsl(var(--foreground)/0.04), 0 1px 0 hsl(var(--foreground)/0.04) inset;
+  }
+  .elev {
+    box-shadow:
+      0 1px 1px hsl(var(--foreground)/0.04),
+      0 4px 12px hsl(var(--foreground)/0.05),
+      0 8px 24px hsl(var(--foreground)/0.04);
+  }
+
+  @keyframes float-in {
+    from { opacity: 0; transform: translateY(8px) scale(0.98); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+  }
+  .anim-in { animation: float-in 420ms cubic-bezier(.2,.7,.2,1) both; }
+
+  @keyframes bg-pan {
+    0% { background-position: center, center, 0% 50%; }
+    100% { background-position: center, center, 100% 50%; }
+  }
+  @keyframes blob-bob {
+    0% { transform: translateY(-10px); }
+    100% { transform: translateY(10px); }
+  }
+
+  /* Global premium transitions */
+  .hover-lift { transition: transform 240ms cubic-bezier(.2,.7,.2,1), box-shadow 240ms; }
+  .hover-lift:hover { transform: translateY(-2px); box-shadow: 0 6px 16px hsl(var(--foreground)/0.05); }
+
+  /* App-wide surface and card helpers */
+  .surface { @apply glass elev rounded-xl border; }
+  .card-smooth { @apply rounded-xl border bg-card shadow-sm; }
+
+  /* Inputs & buttons polish */
+  input, textarea, select {
+    transition: background-color 180ms, box-shadow 180ms, border-color 180ms, transform 120ms;
+    backdrop-filter: saturate(120%);
+  }
+  input:focus, textarea:focus, select:focus {
+    box-shadow: 0 0 0 4px hsl(var(--brand)/0.18);
+    border-color: hsl(var(--brand));
+  }
+  button {
+    transition: transform 120ms cubic-bezier(.2,.7,.2,1), box-shadow 180ms, background-color 180ms, color 180ms;
+  }
+  button:active { transform: translateY(1px) scale(0.98); }
+  .btn-glass { @apply glass elev border border-white/40; }
+  .btn-primary-grad { @apply text-primary-foreground; background-image: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--brand)) 100%); }
+  .input-glass { @apply glass elev border border-white/40; }
 }

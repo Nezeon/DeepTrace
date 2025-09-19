@@ -4,13 +4,13 @@ import { CalendarDays, Hash } from "lucide-react";
 import { ForensicCase } from "@shared/api";
 
 const statusVariant: Record<ForensicCase["status"], { label: string; className: string }> = {
-  Open: { label: "Open", className: "bg-emerald-50 text-emerald-700 border-emerald-100" },
+  Open: { label: "Open", className: "bg-emerald-50 text-emerald-700 border-emerald-100 dark:bg-emerald-950 dark:text-emerald-300 dark:border-emerald-800" },
   "In Review": {
     label: "In Review",
-    className: "bg-amber-50 text-amber-700 border-amber-100",
+    className: "bg-amber-50 text-amber-700 border-amber-100 dark:bg-amber-950 dark:text-amber-300 dark:border-amber-800",
   },
-  Closed: { label: "Closed", className: "bg-slate-100 text-slate-700 border-slate-200" },
-  "On Hold": { label: "On Hold", className: "bg-indigo-50 text-indigo-700 border-indigo-100" },
+  Closed: { label: "Closed", className: "bg-slate-100 text-slate-700 border-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:border-slate-600" },
+  "On Hold": { label: "On Hold", className: "bg-indigo-50 text-indigo-700 border-indigo-100 dark:bg-indigo-950 dark:text-indigo-300 dark:border-indigo-800" },
 };
 
 interface Props {

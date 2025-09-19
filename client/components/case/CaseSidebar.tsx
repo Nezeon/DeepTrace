@@ -40,14 +40,14 @@ export default function CaseSidebar({
 
   return (
     <aside
-      className="flex h-full w-80 flex-col border-r bg-white"
+      className="flex h-full w-80 flex-col border-r border-border glass elev rounded-l-xl"
       data-loc="components/case/CaseSidebar"
     >
       <div className="flex items-center justify-between px-4 pb-2 pt-4">
         <div className="text-sm font-medium">Chats</div>
         <button
           onClick={createNewChat}
-          className="inline-flex items-center gap-1 rounded-md border bg-card px-2 py-1 text-xs shadow-sm hover:border-brand/30"
+          className="inline-flex items-center gap-1 rounded-md btn-glass px-2 py-1 text-xs hover-lift"
         >
           <Plus className="h-3.5 w-3.5" /> New Chat
         </button>
@@ -59,9 +59,9 @@ export default function CaseSidebar({
               <button
                 onClick={() => onSelectThread(t.id)}
                 className={cn(
-                  "flex w-full items-center gap-2 rounded-lg border bg-card p-3 text-left shadow-sm hover:border-brand/30",
+                  "flex w-full items-center gap-2 rounded-lg surface p-3 text-left hover-lift",
                   activeThread === t.id &&
-                    "border-brand/40 ring-1 ring-brand/20",
+                    "ring-1 ring-brand/20 border-brand/40",
                 )}
               >
                 <span className="rounded-md border bg-background p-1 text-muted-foreground">

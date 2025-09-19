@@ -38,10 +38,10 @@ export default function RightInsights({ caseId, entities }: Props) {
   );
 
   return (
-    <aside className="hidden w-96 border-l bg-white xl:flex xl:flex-col" data-loc="components/case/RightInsights">
+    <aside className="hidden w-96 glass elev xl:flex xl:flex-col rounded-r-xl" data-loc="components/case/RightInsights">
       <ScrollArea className="h-[calc(100vh-7rem)]">
         <div className="space-y-4 p-4">
-          <div className="rounded-xl border bg-card p-4 shadow-sm">
+          <div className="surface p-4 rounded-xl anim-in">
             <div className="flex items-center justify-between text-sm">
               <div className="font-medium">Case Summary</div>
               <BarChart2 className="h-4 w-4 text-muted-foreground" />
@@ -62,7 +62,7 @@ export default function RightInsights({ caseId, entities }: Props) {
             </div>
           </div>
 
-          <div className="rounded-xl border bg-card p-4 shadow-sm">
+          <div className="surface p-4 rounded-xl anim-in">
             <div className="mb-2 text-sm font-medium">Entity Types</div>
             <ul className="space-y-2 text-sm">
               <li className="flex items-center gap-2"><Mail className="h-4 w-4"/> Email <span className="ml-auto text-muted-foreground">{counts.emails}</span></li>
@@ -72,11 +72,11 @@ export default function RightInsights({ caseId, entities }: Props) {
             </ul>
           </div>
 
-          <div className="rounded-xl border bg-card p-4 shadow-sm">
+          <div className="surface p-4 rounded-xl anim-in">
             <div className="mb-2 flex items-center gap-2 text-sm font-medium"><CalendarDays className="h-4 w-4"/> Recent Activity</div>
             <ul className="space-y-2 text-sm">
               {insights.timeline.map((t) => (
-                <li key={t.label} className="flex items-center justify-between">
+                <li key={t.label} className="flex items-center justify-between hover-lift rounded-lg px-2 py-1">
                   <span>{t.label}</span>
                   <span className="rounded-full bg-muted px-2 text-[10px] text-muted-foreground">{new Date(t.date).toLocaleDateString(undefined,{month:'short',day:'numeric'})}</span>
                 </li>
@@ -84,7 +84,7 @@ export default function RightInsights({ caseId, entities }: Props) {
             </ul>
           </div>
 
-          <div className="rounded-xl border bg-card p-4 shadow-sm">
+          <div className="surface p-4 rounded-xl anim-in">
             <div className="mb-2 text-sm font-medium">Key Connections</div>
             <div className="space-y-3 text-sm">
               <div>
@@ -102,7 +102,7 @@ export default function RightInsights({ caseId, entities }: Props) {
             </div>
           </div>
 
-          <div className="rounded-xl border bg-card p-4 shadow-sm">
+          <div className="surface p-4 rounded-xl anim-in">
             <div className="mb-2 text-sm font-medium">Active Alerts</div>
             <ul className="space-y-2 text-sm">
               <li className="flex items-center justify-between"><span className="flex items-center gap-2 text-rose-600"><AlertTriangle className="h-4 w-4"/> High Risk</span><span className="text-muted-foreground">Large transfers</span></li>
@@ -111,7 +111,7 @@ export default function RightInsights({ caseId, entities }: Props) {
             </ul>
           </div>
 
-          <div className="rounded-xl border bg-card p-4 shadow-sm">
+          <div className="surface p-4 rounded-xl anim-in">
             <div className="mb-2 text-sm font-medium">Financial Summary</div>
             <div className="grid grid-cols-2 gap-4 text-sm">
               <div>

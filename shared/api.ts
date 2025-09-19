@@ -31,10 +31,21 @@ export interface EvidenceItem {
 
 export interface ChatMessage {
   id: string;
-  role: "user" | "ai";
+  role: "user" | "assistant";
   content: string;
   timestamp: string; // ISO
   threadId?: string;
+}
+
+// Backend chat record shape
+export interface ChatRecord {
+  _id: string;
+  caseId: string;
+  userId: string;
+  role: "user" | "assistant";
+  message: string;
+  metadata?: Record<string, unknown>;
+  timestamp: string; // ISO
 }
 
 export interface CaseThread {

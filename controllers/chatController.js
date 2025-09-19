@@ -3,15 +3,28 @@ import Chat from "../models/Chat.js";
 // POST /api/chats
 export const createChat = async (req, res, next) => {
   try {
-    const { caseId, userId, message, metadata } = req.body;
+    const bodyCaseId = req.body.caseId;
+    const paramCaseId = req.params.caseId;
+    const caseId = paramCaseId || bodyCaseId;
+    const { userId, message, metadata } = req.body;
+    let { role } = req.body;
 
     if (!caseId || !userId || !message) {
       return res.status(400).json({ error: "caseId, userId and message are required" });
     }
 
+    if (!role) {
+      role = "user";
+    }
+
+    if (!["user", "assistant"].includes(role)) {
+      return res.status(400).json({ error: "role must be 'user' or 'assistant'" });
+    }
+
     const chat = await Chat.create({
       caseId,
       userId,
+      role,
       message,
       metadata: metadata || {},
       timestamp: new Date(),
