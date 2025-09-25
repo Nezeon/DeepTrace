@@ -20,7 +20,7 @@ interface Props {
 
 export default function CaseCard({ item, active }: Props) {
   const status = statusVariant[item.status];
-  const date = new Date(item.date).toLocaleDateString();
+  const date = new Date(item.createdAt).toLocaleDateString();
   return (
     <div
       className={cn(
@@ -29,10 +29,13 @@ export default function CaseCard({ item, active }: Props) {
       )}
       data-loc="components/case/CaseCard"
     >
-      <div className="mb-2 flex items-center justify-between gap-2">
-        <div className="flex items-center gap-2 text-sm text-muted-foreground">
-          <Hash className="h-4 w-4" />
-          <span className="font-medium text-foreground">{item.id}</span>
+      <div className="mb-2 flex items-start justify-between gap-2">
+        <div className="flex-1">
+          <h3 className="text-md font-semibold truncate" title={item.title}>{item.title}</h3>
+          <div className="flex items-center gap-2 text-sm text-muted-foreground">
+            <Hash className="h-4 w-4" />
+            <span className="font-medium text-foreground">{item.caseNo}</span>
+          </div>
         </div>
         <Badge className={cn("border", status.className)}>{status.label}</Badge>
       </div>

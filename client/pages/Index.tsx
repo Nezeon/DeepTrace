@@ -1,29 +1,45 @@
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 import SearchBar from "@/components/common/SearchBar";
 import TopNav from "@/components/layout/TopNav";
 import CaseList from "@/components/case/CaseList";
-import { cases, evidenceItems } from "@/data/cases";
+import { cases as initialCases, evidenceItems } from "@/data/cases";
 import { CaseStatus, ForensicCase } from "@shared/api";
 import DashboardPlaceholder from "@/components/dashboard/Placeholder";
 import StatsCard from "@/components/dashboard/StatsCard";
 import { Calendar, FileStack, Info, Users } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
+import NewCasePanel from "@/components/case/NewCasePanel";
+import { Toaster, toast } from 'sonner';
 
 export default function Index() {
   const [query, setQuery] = useState("");
   const [status, setStatus] = useState<"All" | CaseStatus>("All");
+  const [isPanelOpen, setIsPanelOpen] = useState(false);
+  const [cases, setCases] = useState<ForensicCase[]>(() => {
+    const savedCases = localStorage.getItem('forensicCases');
+    return savedCases ? JSON.parse(savedCases) : initialCases;
+  });
+
+  useEffect(() => {
+    localStorage.setItem('forensicCases', JSON.stringify(cases));
+  }, [cases]);
+
+  const handleCaseCreate = (newCase: ForensicCase) => {
+    setCases([newCase, ...cases]);
+    toast.success("Case created (demo) — using dummy files");
+  };
 
   const filtered: ForensicCase[] = useMemo(() => {
     const q = query.toLowerCase().trim();
     return cases.filter((c) => {
-      const matchesQ = !q || [c.id, c.status, c.description, new Date(c.date).toLocaleDateString()].some((v) =>
+      const matchesQ = !q || [c.id, c.status, c.description, new Date(c.createdAt).toLocaleDateString()].some((v) =>
         String(v).toLowerCase().includes(q),
       );
       const matchesS = status === "All" || c.status === status;
       return matchesQ && matchesS;
     });
-  }, [query, status]);
+  }, [query, status, cases]);
 
   const activeCount = useMemo(() => cases.filter((c) => c.status === "Open").length, []);
   const reviewCount = useMemo(() => cases.filter((c) => c.status === "In Review").length, []);
@@ -33,7 +49,7 @@ export default function Index() {
   );
   const closedThisMonth = useMemo(() => {
     const now = new Date();
-    return cases.filter((c) => c.status === "Closed" && new Date(c.date).getMonth() === now.getMonth() && new Date(c.date).getFullYear() === now.getFullYear()).length;
+    return cases.filter((c) => c.status === "Closed" && new Date(c.createdAt).getMonth() === now.getMonth() && new Date(c.createdAt).getFullYear() === now.getFullYear()).length;
   }, []);
 
   return (
@@ -46,7 +62,7 @@ export default function Index() {
               <h1 className="text-2xl font-semibold tracking-tight">Cases</h1>
               <p className="text-sm text-muted-foreground">Search and filter your cases.</p>
             </div>
-            <Button size="sm" className="ml-2 btn-primary-grad hover-lift">New Case</Button>
+            <Button size="sm" className="ml-2 btn-primary-grad hover-lift" onClick={() => setIsPanelOpen(true)}>New Case</Button>
           </div>
           <div className="mt-3 input-glass rounded-xl p-1">
             <SearchBar value={query} onChange={(e) => setQuery(e.target.value)} />
@@ -68,6 +84,8 @@ export default function Index() {
           <div className="mt-4 surface rounded-xl p-2 anim-in">
             <CaseList items={filtered} />
           </div>
+          <NewCasePanel isOpen={isPanelOpen} onClose={() => setIsPanelOpen(false)} onCaseCreate={handleCaseCreate} />
+          <Toaster />
         </aside>
         <section className="hidden flex-1 md:block">
           <div className="mb-4 surface p-4 rounded-xl anim-in">

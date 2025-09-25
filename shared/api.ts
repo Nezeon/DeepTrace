@@ -14,10 +14,15 @@ export interface DemoResponse {
 export type CaseStatus = "Open" | "In Review" | "Closed" | "On Hold";
 
 export interface ForensicCase {
-  id: string; // e.g., CASE-2024-0012
-  date: string; // ISO string
+  id: string; // uuid
+  caseNo: string;
+  officer: string;
+  ipcFir?: string;
+  title: string;
+  description?: string;
+  files: Array<{ name: string; size: number; status: "simulated" | "pending" }>;
+  createdAt: string; // ISO
   status: CaseStatus;
-  description: string;
 }
 
 export type EvidenceCategory = "Chats" | "Calls" | "Media" | "Documents";
